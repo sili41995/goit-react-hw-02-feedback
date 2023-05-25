@@ -1,9 +1,11 @@
 import { Component } from 'react';
 
 class FeedbackForm extends Component {
-  addFeedback() {
+  addFeedback = () => {
     console.log(1);
-  }
+    console.log(this);
+  };
+
   render() {
     return (
       <div>
