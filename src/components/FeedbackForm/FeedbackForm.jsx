@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import React, { Component } from 'react';
+import Notification from 'components/Notification/Notification';
+import Statistics from 'components/Statistics/Statistics';
+import Section from 'components/Section/Section';
 
 class FeedbackForm extends Component {
   static defaultProps = {
@@ -44,11 +47,22 @@ class FeedbackForm extends Component {
     });
   };
 
+  countTotalFeedback = () => {
+    const { good, bad, neutral } = this.state;
+    return bad + neutral + good;
+  };
+
+  countPositiveFeedbackPercentage = () => {
+    const { good, bad, neutral } = this.state;
+    const posF = (100 / (bad + neutral + good)) * good;
+    return posF ? posF.toFixed() : 0;
+  };
+
   render() {
+    const { neutral, bad, good } = this.state;
     return (
       <div>
-        <div>
-          <p>Please leave feedback</p>
+        <Section title='Please leave feedback'>
           <ul>
             <li>
               <button type='button' onClick={this.addGoodFeedback}>
@@ -66,21 +80,20 @@ class FeedbackForm extends Component {
               </button>
             </li>
           </ul>
-        </div>
-        <div>
-          <p>Statistics</p>
-          <ul>
-            <li>
-              Good: <span>{this.state.good}</span>
-            </li>
-            <li>
-              Neutral: <span>{this.state.neutral}</span>
-            </li>
-            <li>
-              Bad: <span>{this.state.bad}</span>
-            </li>
-          </ul>
-        </div>
+        </Section>
+        <Section title='Statistics'>
+          {!good && !neutral && !bad ? (
+            <Notification message='There is no feedback' />
+          ) : (
+            <Statistics
+              good={good}
+              bad={bad}
+              neutral={neutral}
+              total={this.countTotalFeedback()}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
+            />
+          )}
+        </Section>
       </div>
     );
   }
