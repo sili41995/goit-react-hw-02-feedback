@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
+import css from 'components/Section/Section.styled';
+
+const { SectionContainer, SectionTitle } = css;
 
 const Section = ({ title, children }) => {
   return (
-    <section>
-      <h2>{title}</h2>
+    <SectionContainer>
+      <SectionTitle>{title}</SectionTitle>
       {children}
-    </section>
+    </SectionContainer>
   );
 };
 

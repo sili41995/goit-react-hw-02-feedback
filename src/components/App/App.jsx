@@ -1,10 +1,13 @@
-import './App.css';
+import './App.styled.js';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Notification from 'components/Notification/Notification';
 import Statistics from 'components/Statistics/Statistics';
 import Section from 'components/Section/Section';
 import FeedbackOptions from 'components/FeedbackOptions/FeedbackOptions';
+import css from './App.styled.js';
+
+const { Container } = css;
 
 class App extends Component {
   static defaultProps = {
@@ -47,7 +50,7 @@ class App extends Component {
   render() {
     const { neutral, bad, good } = this.state;
     return (
-      <div>
+      <Container>
         <Section title='Please leave feedback'>
           <FeedbackOptions
             options={['good', 'neutral', 'bad']}
@@ -67,7 +70,7 @@ class App extends Component {
             />
           )}
         </Section>
-      </div>
+      </Container>
     );
   }
 }
