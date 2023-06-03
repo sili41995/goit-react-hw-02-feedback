@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 
-const FeedbackOptionsList = styled.ul`
+const List = styled.ul`
   list-style: none;
   display: flex;
   gap: 30px;
 `;
 
-const FeedbackOptionsItem = styled.li``;
+const Item = styled.li``;
 
-const FeedbackOptionBtn = styled.button`
+const Button = styled.button`
   width: 100px;
   height: 40px;
   color: white;
@@ -18,6 +18,6 @@ const FeedbackOptionBtn = styled.button`
   cursor: pointer;
 `;
 
-const css = { FeedbackOptionsList, FeedbackOptionsItem, FeedbackOptionBtn };
+const css = { List, Item, Button };
 
 export default css;

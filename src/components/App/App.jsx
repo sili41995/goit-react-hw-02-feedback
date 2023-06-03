@@ -1,25 +1,22 @@
-import './App.styled.js';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import Notification from 'components/Notification/Notification';
-import Statistics from 'components/Statistics/Statistics';
-import Section from 'components/Section/Section';
-import FeedbackOptions from 'components/FeedbackOptions/FeedbackOptions';
-import css from './App.styled.js';
+import Statistics from 'components/Statistics';
+import FeedbackOptions from 'components/FeedbackOptions';
+import Section from 'components/Section';
+import Notification from 'components/Notification';
+import css from 'components/App/App.styled';
 
 const { Container } = css;
 
 class App extends Component {
   static defaultProps = {
+    step: 1,
     initialValue: 0,
   };
 
   static propTypes = {
-    state: PropTypes.exact({
-      good: PropTypes.number.isRequired,
-      neutral: PropTypes.number.isRequired,
-      bad: PropTypes.number.isRequired,
-    }),
+    step: PropTypes.number.isRequired,
+    initialValue: PropTypes.number.isRequired,
   };
 
   state = {
@@ -28,46 +25,44 @@ class App extends Component {
     bad: this.props.initialValue,
   };
 
-  addFeedback = (feedback) => {
-    this.setState((prevState) => {
-      return {
-        [feedback]: prevState[feedback] + 1,
-      };
-    });
+  addFeedback = (key) => {
+    this.setState((state) => ({
+      [key]: (state[key] += this.props.step),
+    }));
   };
 
   countTotalFeedback = () => {
-    const { good, bad, neutral } = this.state;
-    return bad + neutral + good;
+    const { good, neutral, bad } = this.state;
+    return good + neutral + bad;
   };
 
   countPositiveFeedbackPercentage = () => {
-    const { good, bad, neutral } = this.state;
-    const posF = (100 / (bad + neutral + good)) * good;
-    return posF ? Math.round(posF) : 0;
+    const { good } = this.state;
+
+    return Math.round((100 / this.countTotalFeedback()) * good);
   };
 
   render() {
-    const { neutral, bad, good } = this.state;
+    const { good, neutral, bad } = this.state;
     return (
       <Container>
-        <Section title='Please leave feedback'>
+        <Section title={'Please leave feedback'}>
           <FeedbackOptions
-            options={['good', 'neutral', 'bad']}
+            options={this.state}
             onLeaveFeedback={this.addFeedback}
           />
         </Section>
-        <Section title='Statistics'>
-          {!good && !neutral && !bad ? (
-            <Notification message='There is no feedback' />
-          ) : (
+        <Section title={'Statistics'}>
+          {this.countTotalFeedback() ? (
             <Statistics
               good={good}
-              bad={bad}
               neutral={neutral}
+              bad={bad}
               total={this.countTotalFeedback()}
               positivePercentage={this.countPositiveFeedbackPercentage()}
             />
+          ) : (
+            <Notification message='There is no feedback' />
           )}
         </Section>
       </Container>

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
-const NotificationMessage = styled.p`
+const Message = styled.p`
   font-size: 24px;
 `;
 
-const css = { NotificationMessage };
+const css = { Message };
 
 export default css;

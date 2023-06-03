@@ -1,20 +1,20 @@
 import styled from '@emotion/styled';
 
-const StatisticsList = styled.ul`
+const List = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
-const StatisticsItem = styled.li`
+const Item = styled.li`
   font-size: 20px;
 `;
 
-const StatisticsLabel = styled.span`
-  font-weight: 700;
+const Label = styled.span`
+  text-transform: capitalize;
 `;
 
-const css = { StatisticsList, StatisticsItem, StatisticsLabel };
+const css = { List, Item, Label };
 
 export default css;

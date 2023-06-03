@@ -1,20 +1,18 @@
 import PropTypes from 'prop-types';
 import css from 'components/Section/Section.styled';
 
-const { SectionContainer, SectionTitle } = css;
+const { Container, Title } = css;
 
-const Section = ({ title, children }) => {
-  return (
-    <SectionContainer>
-      <SectionTitle>{title}</SectionTitle>
-      {children}
-    </SectionContainer>
-  );
-};
+const Section = ({ title, children }) => (
+  <Container>
+    <Title>{title}</Title>
+    {children}
+  </Container>
+);
 
 Section.propTypes = {
   title: PropTypes.string.isRequired,
-  children: PropTypes.object.isRequired,
+  children: PropTypes.object,
 };
 
 export default Section;
