@@ -1,13 +1,17 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import Statistics from 'components/Statistics';
 import FeedbackOptions from 'components/FeedbackOptions';
 import Section from 'components/Section';
+import Notification from 'components/Notification';
 
 class App extends Component {
+  static defaultProps = { step: 1, initialValue: 0 };
+
   state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+    good: this.props.initialValue,
+    neutral: this.props.initialValue,
+    bad: this.props.initialValue,
   };
 
   countTotalFeedback = () => {
@@ -27,14 +31,15 @@ class App extends Component {
   getOptions = () => Object.keys(this.state);
 
   onLeaveFeedback = (key) => {
-    this.setState((prevState) => ({ [key]: prevState[key] + 1 }));
+    this.setState((prevState) => ({ [key]: prevState[key] + this.props.step }));
   };
 
   render() {
     const { good, neutral, bad } = this.state;
+    const totalFeedback = this.countTotalFeedback();
 
     return (
-      <>
+      <div style={{ padding: '16px' }}>
         <Section title='Please leave feedback'>
           <FeedbackOptions
             options={this.getOptions()}
@@ -42,17 +47,26 @@ class App extends Component {
           />
         </Section>
         <Section title='Statistics'>
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={this.countTotalFeedback()}
-            positivePercentage={this.countPositiveFeedbackPercentage()}
-          />
+          {totalFeedback ? (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={totalFeedback}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
+            />
+          ) : (
+            <Notification message='There is no feedback' />
+          )}
         </Section>
-      </>
+      </div>
     );
   }
 }
+
+App.propTypes = {
+  step: PropTypes.number.isRequired,
+  initialValue: PropTypes.number.isRequired,
+};
 
 export default App;
